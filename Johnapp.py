@@ -57,7 +57,7 @@ if uploaded_file is not None:
     with tabs[0]:
         st.subheader("2D Visualization")
         method = st.selectbox("Επιλέξτε μέθοδο μείωσης διάστασης", ["PCA", "t-SNE"])
-        
+
         if method == "PCA":
             pca = PCA(n_components=2)
             pca_results = pca.fit_transform(data.iloc[:, :-1])
@@ -67,7 +67,7 @@ if uploaded_file is not None:
             plt.ylabel('pca-two')
             plt.legend(data[label_col].unique())
             st.pyplot(plt)
-        
+
         elif method == "t-SNE":
             tsne = TSNE(n_components=2, perplexity=30, n_iter=300)
             tsne_results = tsne.fit_transform(data.iloc[:, :-1])
@@ -106,21 +106,21 @@ if uploaded_file is not None:
         scaler = StandardScaler()
         X_train = scaler.fit_transform(X_train)
         X_test = scaler.transform(X_test)
-        
+
         knn = KNeighborsClassifier(n_neighbors=3)
         knn.fit(X_train, y_train)
         y_pred_knn = knn.predict(X_test)
-        
+
         st.write("KNN Classification Report:")
         st.text(classification_report(y_test, y_pred_knn))
         st.write("KNN Accuracy Score:", accuracy_score(y_test, y_pred_knn))
-        
+
         cm_knn = confusion_matrix(y_test, y_pred_knn)
         st.write("KNN Confusion Matrix:")
         fig, ax = plt.subplots()
         sns.heatmap(cm_knn, annot=True, fmt="d", cmap="Blues", ax=ax)
         st.pyplot(fig)
-        
+
         rf = RandomForestClassifier(n_estimators=100, random_state=42)
         rf.fit(X_train, y_train)
         y_pred_rf = rf.predict(X_test)
@@ -149,12 +149,12 @@ if uploaded_file is not None:
         kmeans = KMeans(n_clusters=2)
         kmeans.fit(X)
         y_kmeans = kmeans.predict(X)
-        
+
         st.write("KMeans Silhouette Score:", silhouette_score(X, y_kmeans))
-        
+
         st.write("KMeans Clustering Results:")
         st.write(pd.DataFrame({'Actual': y, 'Cluster': y_kmeans}).head(10))
-        
+
         agg_clustering = AgglomerativeClustering(n_clusters=2)
         agg_clustering.fit(X)
         y_agg = agg_clustering.labels_
@@ -173,24 +173,19 @@ if uploaded_file is not None:
             'Silhouette Score': [silhouette_score(X, y_kmeans), silhouette_score(X, y_agg), silhouette_score(X, y_dbscan)]
         })
         st.write(clustering_results)
-        
+
     with tabs[3]:
         st.subheader("Info")
         st.write("Αυτή η εφαρμογή αναπτύχθηκε από την ομάδα μας για το μάθημα Τεχνολογία Λογισμικού.")
 
-
-
-
-        st.write("Η εφαρμογή προσφέρει εργαελεία ανάλυσης δεδομένων, επιτρέπει τη φόρτωση, την οπτικοποίηση, την κατηγοροιοποίηση και την ομαδοποίηση δεδομένων καθώς και την παρουσίαση των αποτελεσμάτων.")
+        st.write("Η εφαρμογή προσφέρει εργαλεία ανάλυσης δεδομένων, επιτρέπει τη φόρτωση, την οπτικοποίηση, την κατηγοριοποίηση και την ομαδοποίηση δεδομένων καθώς και την παρουσίαση των αποτελεσμάτων.")
 
         st.write("Λειτουργία της Εφαρμογής")
-
-        st.write("1.Φόρτωση Δεδομένων: Επιλογή αρχείων CSV ή Excel")
-        st.write("2.Οπτικοποίηση: 2D διαγράμματα με PCA ή t-SNE")
-        st.write("3.EDA: Ιστογράμματα και pairplots για κατανόηση δεδομένων")
-        st.write("4.Κατηγοριοποίηση: Αλγόριθμοι KNN και Random Forest")
-        st.write("5.Ομαδοποίηση: Αλγόριθμοι K-Means και Agglomerative Clustering")
-        
+        st.write("1. Φόρτωση Δεδομένων: Επιλογή αρχείων CSV ή Excel")
+        st.write("2. Οπτικοποίηση: 2D διαγράμματα με PCA ή t-SNE")
+        st.write("3. EDA: Ιστογράμματα και pairplots για κατανόηση δεδομένων")
+        st.write("4. Κατηγοριοποίηση: Αλγόριθμοι KNN και Random Forest")
+        st.write("5. Ομαδοποίηση: Αλγόριθμοι K-Means και Agglomerative Clustering")
 
         st.write("Χρησιμοποιούμε τεχνολογίες Python, Streamlit, και scikit-learn.")
         st.write("Ομάδα Ανάπτυξης:")
@@ -200,9 +195,4 @@ if uploaded_file is not None:
             {"name": "Βασίλης Στάθης", "am": "Π2020040", "role": "Οπτικοποίηση Δεδομένων"},
         ]
         for member in team_members:
-            if "am" in member:
-                st.write(f"{member['name']} (ΑΜ: {member['am']}): {member['role']}")
-            else:
-                st.write(f"{member['name']}: {member['role']}")
-
-
+            st.write(f"{member['name']} (ΑΜ: {member['am']}): {member['role']}")
